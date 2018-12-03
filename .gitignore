@@ -24,3 +24,4 @@ aoc-*.tar
 
 
 .envrc
+.elixir_ls/
