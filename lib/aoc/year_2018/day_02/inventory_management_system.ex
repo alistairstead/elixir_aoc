@@ -42,7 +42,31 @@ defmodule Aoc.Year2018.Day02.InventoryManagementSystem do
   three of them contain a letter which appears exactly three times. Multiplying
   these together produces a checksum of `4 * 3 = 12`.
 
-  *What is the checksum* for your list of box IDs?
+  *What is the checksum* for your list of box
+  ## --- Part Two ---
+
+  Confident that your list of box IDs is complete, you're ready to find the boxes
+  full of prototype fabric.
+
+  The boxes will have IDs which differ by exactly one character at the same
+  position in both strings. For example, given the following box IDs:
+
+  `abcde
+  fghij
+  klmno
+  pqrst
+  fguij
+  axcye
+  wvxyz
+  `The IDs `abcde` and `axcye` are close, but they differ by two characters (the
+  second and fourth). However, the IDs `fghij` and `fguij` differ by exactly one
+  character, the third (`h` and `u`). Those must be the correct boxes.
+
+  *What letters are common between the two correct box IDs?* (In the example
+  above, this is found by removing the differing character from either ID,
+  producing `fgij`.)
+
+  IDs?
 
 
   """
@@ -91,5 +115,38 @@ defmodule Aoc.Year2018.Day02.InventoryManagementSystem do
   """
   def part_2(input) do
     input
+    |> String.split("\n")
+    |> common_letters()
+  end
+
+  def common_letters(box_ids) do
+    [[a, b]] = differences_of_one(box_ids)
+
+    [String.codepoints(a), String.codepoints(b)]
+    |> Enum.zip()
+    |> Enum.reject(fn {a, b} ->
+      a != b
+    end)
+    |> Enum.map(fn {a, _b} ->
+      a
+    end)
+    |> Enum.join()
+  end
+
+  defp differences_of_one(box_ids) do
+    combinations = for a <- box_ids, b <- box_ids, do: Enum.sort([a, b])
+
+    Enum.filter(Enum.uniq(combinations), fn [a, b] ->
+      differences(a, b) == 1
+    end)
+  end
+
+  defp differences(a, b) do
+    [String.codepoints(a), String.codepoints(b)]
+    |> Enum.zip()
+    |> Enum.filter(fn {a, b} ->
+      a != b
+    end)
+    |> Enum.count()
   end
 end

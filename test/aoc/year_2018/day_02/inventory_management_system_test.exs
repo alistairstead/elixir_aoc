@@ -25,13 +25,24 @@ defmodule Aoc.Year2018.Day02.InventoryManagementSystemTest do
     end
   end
 
+  @common_letters_input """
+  abcde
+  fghij
+  klmno
+  pqrst
+  fguij
+  axcye
+  wvxyz
+  """
+
   describe "part_2/1" do
     test "examples" do
+      assert @common_letters_input |> InventoryManagementSystem.part_2() == "fgij"
     end
 
     @tag day: 02, year: 2018
     test "input", %{input: input} do
-      assert input |> InventoryManagementSystem.part_2() == input
+      assert input |> InventoryManagementSystem.part_2() == "jiwamotgsfrudclzbyzkhlrvp"
     end
   end
 end
